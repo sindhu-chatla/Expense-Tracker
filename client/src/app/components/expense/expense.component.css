@@ -1,0 +1,49 @@
+.expense-main-container{
+    width: 100%;
+}
+
+.main-container{
+    height: 90vh;
+    display: flex;
+    padding: 40px;
+    overflow: auto;
+}
+
+@media screen and (max-width:768px) {
+    .main-container{
+        flex-direction: column;
+        padding: 20px;
+        padding-bottom: 50px;
+    }
+}
+
+
+.container{
+    width: 40%;
+    padding: 20px 60px;
+    border: 1px solid #4d4d4d;
+}
+@media screen and (max-width:768px) {
+    .container{
+        width: 100%;
+        padding: 20px;
+        background-color: transparent;
+    }
+}
+
+/* .main-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    height: 90vh;
+    overflow: auto;
+    gap: 40px;
+}
+@media screen and (max-width:768px) {
+    .main-container{
+        flex-direction: column;
+    }
+}
+.form{
+    width: 34%;
+} */

@@ -1,0 +1,178 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    
+    <div class="months-container">
+        <h1 class="text-light">Welcome Back {{userName}}</h1>
+        <div class="header-container w-100 p-4 d-flex align-items-center justify-content-between flex-column flex-md-row bg-dark"
+            style="gap: 10px;">
+            <button class="w-100 btn btn-outline-success" routerLink="/add-expense">
+                Add New Month
+            </button>
+            <!-- <input [(ngModel)]="year" placeholder="Year" class="w-100"
+                style="padding: 6px 10px; outline: none; border: 0; outline: 1px solid #fff; border-radius: 4px; background-color: transparent; color: #fff;">
+            <input [(ngModel)]="month" placeholder="Month Number" class="w-100"
+                style="padding: 6px 10px; outline: none; border: 0; outline: 1px solid #fff; border-radius: 4px; background-color: transparent; color: #fff;">
+
+            <button class="w-100 btn btn-outline-danger">
+                <i class="fa fa-arrow-left"></i>
+                Delete Month
+            </button> -->
+        </div>
+        <div class="text-secondary">
+            If you want to add new month Earnings and Expenditure you can click on <a routerLink="/add-expense">Add New
+                Month</a> button
+        </div>
+
+        <div class="text-center" *ngIf="isLoading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="empty-container text-center" *ngIf="months.length === 0">
+            <div class="" >
+                <img src="https://img.freepik.com/free-vector/image-upload-concept-illustration_114360-798.jpg?w=740&t=st=1684426595~exp=1684427195~hmac=4faa797244fbbcc3af59e1010bfdfee1ebec887fef6ea61feef9c0d3d30e30e9"
+                    alt="No Cart Items" class="img-fluid">
+                <h3 class="mt-3" style="color: rgb(98, 90, 252); font-weight: bold;">No Entries</h3>
+                <p style="color: #787878;">You had no entris. Start Now to write your month entry!</p>
+                <button class="btn btn-outline-primary" routerLink="/add-expense">Add New Month</button>
+            </div>
+        </div>
+        <div *ngIf="!isLoading">
+            <div class="container mt-4 p-0">
+                <div *ngFor="let month of months">
+                    <div class="mb-4 bg-dark p-2 text-light">
+                        <div class="bg-warning p-2 text-center w-100 text-dark" style="height: 8vh;">
+                            <h1 style="font-weight: bold;">{{ month.monthNumber | numberToMonth }}, {{ month.monthYear
+                                }}</h1>
+                        </div>
+                        <div class="table-container" style="gap: 20px;">
+                            <table class="table table-bordered" *ngFor="let table of month.tables">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>{{ table.tableName | titlecase }}</th>
+                                        <th *ngFor="let column of table.columns">{{ column | titlecase }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of table.rows">
+                                        <td style="border: 1px solid #4f4f4f;">
+                                            <div class="btn-group btn-table">
+                                                <button class="btn btn-outline-success btn-sm btn-table"
+                                                    style="border-radius: 2px;" (click)="editRowId = row._id;">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm btn-table"
+                                                    style="border-radius: 2px;"
+                                                    (click)="onDeleteRow(month._id, table.tableName, row._id)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <ng-container *ngIf="editRowId === row._id; else displayRowData">
+                                            <!-- Fields for editing the row -->
+                                            <td class="text-light mobile-date-field" style="border: 1px solid #4f4f4f;">
+                                                <input type="number" [(ngModel)]="row.date">
+                                            </td>
+                                            <td class="text-light" style="border: 1px solid #4f4f4f;">
+                                                <input type="text" [(ngModel)]="row.name">
+                                            </td>
+                                            <td class="text-light" style="border: 1px solid #4f4f4f;">
+                                                <input type="number" [(ngModel)]="row.amount">
+                                            </td>
+                                            <td style="border: 1px solid #4f4f4f;">
+                                                <button class="btn btn-primary btn-sm btn-table"
+                                                    style="border-radius: 2px; border: 1px solid #4f4f4f;"
+                                                    (click)="submitEditedRow(month._id, table.tableName, row._id, row)">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </td>
+                                        </ng-container>
+                                        <ng-template #displayRowData>
+                                            <!-- Display the row data -->
+                                            <td class="text-light" style="border: 1px solid #4f4f4f;">{{ row.date 
+                                                }}</td>
+                                            <td class="text-light" style="border: 1px solid #4f4f4f;">{{ row.name }}
+                                            </td>
+                                            <td class="text-light" style="border: 1px solid #4f4f4f;">
+                                                {{ row.amount }}
+                                                <i class="fas fa-rupee-sign"></i>
+
+                                            </td>
+                                            <td></td>
+                                        </ng-template>
+                                    </tr>
+                                    <tr [formGroup]="addRowForm">
+                                        <td style="border: 1px solid #4f4f4f;">
+                                            <button class="btn btn-outline-primary btn-table w-100"
+                                                style="border-radius: 2px;"
+                                                (click)="addNewRow(addRowForm.value, month._id, table.tableName)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </td>
+                                        <td style="border: 1px solid #4f4f4f;">
+                                            <input type="number" class="form-control"
+                                                [ngClass]="{ 'invalid-box': addRowForm.controls['date'].errors?.['daysInvalid'] || addRowForm.controls['date'].errors?.['pattern'] }"
+                                                style="border-radius: 2px; border: 1px solid #414141;"
+                                                placeholder="Enter Date of the day" formControlName="date">
+                                        </td>
+                                        <td style="border: 1px solid #4f4f4f;">
+                                            <input type="text" class="form-control"
+                                                style="border-radius: 2px; border: 1px solid #414141;"
+                                                placeholder="Enter Name" formControlName="name">
+                                        </td>
+                                        <td style="border: 1px solid #4f4f4f;">
+                                            <input type="text" class="form-control"
+                                                [ngClass]="{'invalid-box': addRowForm.controls['amount'].errors?.['pattern']}"
+                                                style="border-radius: 2px; border: 1px solid #414141;"
+                                                placeholder="Enter Amount" formControlName="amount">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="w-100 mt-4">
+                            <h3 class="table-title text-light">Calculations</h3>
+                            <table class="table w-100">
+                                <thead class="thead-light">
+                                    <tr class="text-light">
+                                        <th style="border: 1px solid #898989;">Total Income</th>
+                                        <th style="border: 1px solid #898989;">Total Expense</th>
+                                        <th style="border: 1px solid #898989;">Current Savings</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-light">
+                                        <td style="border: 1px solid #424242; width:33%">{{
+                                            month.calculations.totalIncome }} <i class="fas fa-rupee-sign"></i>
+                                        </td>
+                                        <td style="border: 1px solid #424242; width:33%">{{
+                                            month.calculations.totalExpense }} <i class="fas fa-rupee-sign"></i>
+                                        </td>
+                                        <td style="border: 1px solid #424242; width:33%">{{
+                                            month.calculations.currentAmount }} <i class="fas fa-rupee-sign"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="w-100 d-flex justify-content-end mb-4 mt-2" style="gap: 10px;">
+                                <button class="btn btn-outline-success" (click)="exportPdfe(month)">
+                                    <i class="fa fa-download"></i> Download PDF
+                                </button>
+                                <button class="btn btn-outline-danger" (click)="onDelete(month._id)">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </div>
+                            <div class="w-100 p-4"
+                                *ngIf="month.calculations.totalExpense > month.calculations.totalIncome/2"
+                                style="background-color: #feebc6; border-radius: 20px;">
+                                <h4 colspan="3" class="text-danger">
+                                    ! You have exceeded your limit in this month. You shouldn't spend more than half of
+                                    your income.
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

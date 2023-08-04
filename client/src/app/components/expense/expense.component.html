@@ -1,0 +1,130 @@
+<div class="d-flex">
+  <app-sidebar></app-sidebar>
+  <div class="w-100 d-flex text-light main-container" style="gap:40px; background-color: rgb(64, 77, 91);">
+    <div class="container">
+      
+      <form [formGroup]="regForm" #r="ngForm" (ngSubmit)="addIncome(r.value)" class="form">
+        <h2 class="heading text-center">Add Earnings</h2>
+        <div class="form-group mb-2">
+            <label for="amount">Amount</label>
+            <input placeholder="Enter amount" type="text" class="form-control" id="amount" formControlName="amount" required>
+            <div *ngIf="regForm.controls['amount'].touched && regForm.controls['amount']?.['errors']">
+                <div *ngIf="regForm.controls['amount']?.['errors']?.['required']" class="error-message text-danger">
+                    Amount is required
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-2">
+            <label for="category">Select Category</label>
+            <select class="form-control" id="category"  name="category" formControlName="category" required>
+              <option value="salary" selected>Salary</option>
+              <option value="bonus">Bonus</option>
+              <option value="investment">Investment</option>
+              <option value="business-income">Business Income</option>
+              <option value="rental-income">Rental Income</option>
+              <option value="other-income">Other Income</option>
+            </select>
+            <div *ngIf="regForm.controls['category'].touched && regForm.controls['category']?.['errors']">
+                <div *ngIf="regForm.controls['category']?.['errors']?.['required']"
+                    class="error-message text-danger">
+                    category is required
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-2">
+          <label for="monthNumber">Month Number</label>
+          <input placeholder="Enter monthNumber" type="text" class="form-control" id="monthNumber" formControlName="monthNumber" required>
+          <div *ngIf="regForm.controls['monthNumber'].touched && regForm.controls['monthNumber']?.['errors']">
+              <div *ngIf="regForm.controls['monthNumber']?.['errors']?.['required']" class="error-message text-danger">
+                  Month Number is required
+              </div>
+          </div>
+      </div>
+      <div class="form-group mb-2">
+        <label for="monthYear">Month Year</label>
+        <input placeholder="Enter monthYear" type="text" class="form-control" id="monthYear" formControlName="monthYear" required>
+        <div *ngIf="regForm.controls['monthYear'].touched && regForm.controls['monthYear']?.['errors']">
+            <div *ngIf="regForm.controls['monthYear']?.['errors']?.['required']" class="error-message text-danger">
+                Month Year is required
+            </div>
+        </div>
+    </div>
+    <div class="form-group mb-2">
+      <label for="date">Date</label>
+      <input placeholder="Enter date" type="number" class="form-control" id="date" formControlName="date" required>
+      <div *ngIf="regForm.controls['date'].touched && regForm.controls['date']?.['errors']">
+          <div *ngIf="regForm.controls['date']?.['errors']?.['required']" class="error-message text-danger">
+              Date is required
+          </div>
+      </div>
+    </div>
+        <button type="submit" class="btn btn-primary mt-4 w-100">Add Earnings</button>
+    </form>
+    </div>
+    <div class="container">
+      <form [formGroup]="expenseForm" #t="ngForm" (ngSubmit)="addExpense(t.value)" class="form">
+        <h2 class="heading text-center">Add Expense</h2>
+        <div class="form-group mb-2">
+            <label for="expenseAmount">Amount</label>
+            <input placeholder="Enter expenseAmount" type="text" class="form-control" id="expenseAmount" formControlName="expenseAmount" required>
+            <div *ngIf="expenseForm.controls['expenseAmount'].touched && expenseForm.controls['expenseAmount']?.['errors']">
+                <div *ngIf="expenseForm.controls['expenseAmount']?.['errors']?.['required']" class="error-message text-danger">
+                    Amount is required
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="expenseCategory">Select Category</label>
+          <select class="form-control" id="expenseCategory" formControlName="expenseCategory" required> 
+            <option value="food" selected>Food and Dining</option>
+            <option value="transportation">Transportation</option>
+            <option value="housing">Housing</option>
+            <option value="utilities">Utilities</option>
+            <option value="personal-care">Personal Care</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="travel">Travel</option>
+            <option value="shopping">Shopping</option>
+            <option value="health-medical">Health and Medical</option>
+            <option value="education">Education</option>
+            <option value="debt-payments">Debt Payments</option>
+            <option value="miscellaneous">Miscellaneous</option>
+          </select>
+          <div *ngIf="expenseForm.controls['expenseCategory'].touched && expenseForm.controls['expenseCategory']?.['errors']">
+            <div *ngIf="expenseForm.controls['expenseCategory']?.['errors']?.['required']"
+                class="error-message text-danger">
+                Category is required
+            </div>
+        </div>
+        </div> 
+        <div class="form-group mb-2">
+          <label for="expenseMonthNumber">Month Number</label>
+          <input placeholder="Enter expenseMonthNumber" type="text" class="form-control" id="expenseMonthNumber" formControlName="expenseMonthNumber" required>
+          <div *ngIf="expenseForm.controls['expenseMonthNumber'].touched && expenseForm.controls['expenseMonthNumber']?.['errors']">
+              <div *ngIf="expenseForm.controls['expenseMonthNumber']?.['errors']?.['required']" class="error-message text-danger">
+                  Month Number is required
+              </div>
+          </div>
+      </div>
+      <div class="form-group mb-2">
+        <label for="expenseMonthYear">Month Year</label>
+        <input placeholder="Enter expenseMonthYear" type="text" class="form-control" id="expenseMonthYear" formControlName="expenseMonthYear" required>
+        <div *ngIf="expenseForm.controls['expenseMonthYear'].touched && expenseForm.controls['expenseMonthYear']?.['errors']">
+            <div *ngIf="expenseForm.controls['expenseMonthYear']?.['errors']?.['required']" class="error-message text-danger">
+                Month Year is required
+            </div>
+        </div>
+    </div>
+    <div class="form-group mb-2">
+      <label for="expenseDate">Date</label>
+      <input placeholder="Enter expenseDate" type="number" class="form-control" id="expenseDate" formControlName="expenseDate" required>
+      <div *ngIf="expenseForm.controls['expenseDate'].touched && expenseForm.controls['expenseDate']?.['errors']">
+          <div *ngIf="expenseForm.controls['expenseDate']?.['errors']?.['required']" class="error-message text-danger">
+              ExpenseDate is required
+          </div>
+      </div>
+    </div>
+        <button type="submit" class="btn btn-primary mt-4 w-100" [disabled]="expenseForm.invalid">Add Expense</button>
+    </form>
+    </div>
+  </div>
+</div>
